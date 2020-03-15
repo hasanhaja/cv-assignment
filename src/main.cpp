@@ -11,7 +11,7 @@
 #include "utilities/input.h"
 #include "Runner.h"
 
-#include <opencv2/imgcodecs.hpp>
+#include <opencv2/opencv.hpp>
 
 /**
  * This main method will be the runner for the program
@@ -99,7 +99,7 @@ int main(int argc, char *argv[]) {
 
         cv::Mat img_mat = cv::imread(image);
 
-        if (image.empty()) {
+        if (img_mat.empty()) {
             throw std::invalid_argument("Could not open image.");
         }
 
@@ -140,6 +140,11 @@ int main(int argc, char *argv[]) {
     /* End of placeholder */
 
     // TODO Debug: display the closest image
+
+    cv::namedWindow("Recognition result", 1);
+    cv::imshow("Recognition result", app.get_closest_image());
+    cv::waitKey(0);
+    cv::destroyWindow("Recognition result");
 
     std::cout << "Program exited." << std::endl;
 

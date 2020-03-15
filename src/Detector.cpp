@@ -64,7 +64,7 @@ void Detector::detect() {
     cv::normalize(current_histogram, current_histogram, 1, 0, cv::NORM_L1);
 
     double closest_distance = std::numeric_limits<double>::max();
-    double closest_image = 0;
+    int closest_image = 0;
 
     for (int i = 0; i < samples.size(); i++) {
         /**
@@ -97,6 +97,8 @@ void Detector::detect() {
 
     std::cout << "Closest image calculated." << std::endl;
 
+
+    this->debug_image = input[closest_image];
     // Since this gives you the closest image, that means you'll need to match up the name of the folder to then label the recognition. Then the event can be assigned on that basis.
 
     /** Detection logic ends */
@@ -112,6 +114,10 @@ Result Detector::get_result() {
 
 void Detector::image_into_mat() {
 
+}
+
+cv::Mat Detector::debug_closest_image() {
+    return debug_image;
 }
 
 Detector::~Detector() = default;

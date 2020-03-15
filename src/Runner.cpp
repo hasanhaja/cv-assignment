@@ -38,6 +38,10 @@ void Runner::run() {
     this->_result = std::move(detector->get_result());
 }
 
+cv::Mat Runner::get_closest_image() {
+    return detector->debug_closest_image();
+}
+
 Result Runner::result() {
     return _result;
 }

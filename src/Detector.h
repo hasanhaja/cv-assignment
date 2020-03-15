@@ -29,6 +29,8 @@ private:
     Events events;
     Result result;
 
+    cv::Mat debug_image;
+
     void image_into_mat();
     void detect();
 
@@ -40,6 +42,7 @@ public:
      * @param test_image
      */
     Detector(std::vector<Input> background, Input test_image);
+    cv::Mat debug_closest_image();
     void run();
     Result get_result();
     ~Detector();

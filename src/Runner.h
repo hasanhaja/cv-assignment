@@ -45,6 +45,7 @@ public:
     void image_set(const Data& images);
     void run();
     Result result();
+    cv::Mat get_closest_image();
     ~Runner();
 };
 

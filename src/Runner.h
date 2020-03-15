@@ -5,6 +5,9 @@
 #ifndef CV_ASSIGNMENT_RUNNER_H
 #define CV_ASSIGNMENT_RUNNER_H
 
+#include <iostream>
+#include <opencv2/core/mat.hpp>
+
 #include "utilities/aliases.h"
 #include "utilities/input.h"
 #include "utilities/result.h"
@@ -23,7 +26,14 @@ private:
      * This might be deprecated in favour of Input
      */
     Data images;
-    Input input_images, dataset;
+
+    /**
+     * HistogramsFor case1, case2, ..., caseN;
+     * void generate_sample_data();
+     */
+
+    Input input_images;
+    std::vector<Input> dataset;
     std::unique_ptr<Detector> detector;
 
     Result _result;
@@ -31,7 +41,7 @@ private:
 public:
     Runner();
     explicit Runner(Input input_images);
-    void set_dataset(Input dataset);
+    void set_dataset(std::vector<Input> dataset);
     void image_set(const Data& images);
     void run();
     Result result();

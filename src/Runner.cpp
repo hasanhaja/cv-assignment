@@ -10,7 +10,7 @@ Runner::Runner() {
 
 Runner::Runner(Input input_images): input_images(std::move(input_images)) { }
 
-void Runner::set_dataset(Input dataset) {
+void Runner::set_dataset(std::vector<Input> dataset) {
     this->dataset = std::move(dataset);
 }
 
@@ -25,6 +25,10 @@ void Runner::image_set(const Data& images) {
  * This is also missing a lot of error handling currently.
  */
 void Runner::run() {
+
+    std::cout << "App run block entered" << std::endl;
+
+    // Need to ensure these things have been correctly initialized
     detector = std::make_unique<Detector>(dataset, input_images);
 
     detector->run();

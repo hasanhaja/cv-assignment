@@ -7,6 +7,8 @@
 
 #include <iostream>
 #include <opencv2/core/mat.hpp>
+#include <map>
+#include <array>
 
 #include "utilities/aliases.h"
 #include "utilities/input.h"
@@ -17,8 +19,8 @@ using namespace util::input;
 using namespace util::output;
 
 /**
- * Use smart pointers
- * Should only hold names of images or the actual file, and not in the Mat format.
+ * TODO: The dataset path should be passed into Runner and runner should generate
+ * the dataset in the appropriate format and process it
  */
 class Runner {
 private:
@@ -28,9 +30,15 @@ private:
     Data images;
 
     /**
+     * This map will contain all of the histograms per folder of images
+     */
+    std::map<std::string, cv::MatND> data;
+    /**
      * HistogramsFor case1, case2, ..., caseN;
      * void generate_sample_data();
      */
+    std::array<cv::Mat, 255> histogram;
+//    cv::MatND histogram[255];
 
     Input input_images;
     std::vector<Input> dataset;
@@ -42,7 +50,7 @@ public:
     Runner();
     explicit Runner(Input input_images);
     void set_dataset(std::vector<Input> dataset);
-    void image_set(const Data& images);
+    void generate_histogram();
     void run();
     Result result();
     cv::Mat get_closest_image();

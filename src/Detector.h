@@ -9,6 +9,7 @@
 #include <opencv2/imgproc.hpp>
 #include <iostream>
 #include <vector>
+#include <array>
 #include "utilities/aliases.h"
 #include "utilities/result.h"
 #include "utilities/input.h"
@@ -29,7 +30,10 @@ private:
     Events events;
     Result result;
 
+    std::array<cv::Mat, 255> histogram;
+
     cv::Mat debug_image;
+    //cv::MatND histogram[255];
 
     void image_into_mat();
     void detect();
@@ -41,7 +45,9 @@ public:
      * @param background
      * @param test_image
      */
-    Detector(std::vector<Input> background, Input test_image);
+    //Detector(std::vector<Input> background, Input test_image);
+    Detector(Input test_image, std::array<cv::Mat, 255> histogram);
+    //void set_histogram(cv::MatND histogram[]);
     cv::Mat debug_closest_image();
     void run();
     Result get_result();

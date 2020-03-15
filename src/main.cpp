@@ -2,7 +2,9 @@
 #include <string>
 #include <vector>
 #include "utilities/display.h"
+#include "utilities/result.h"
 #include <filesystem>
+#include "Runner.h"
 
 /**
  * This main method will be the runner for the program
@@ -43,14 +45,39 @@ int main(int argc, char *argv[]) {
         std::cout << file << std::endl;
     }
 
-
-
     /**
      * Placeholder for detection
      */
-    std::string filename = "test.png";
+    //std::string filename = "test.png";
     //std::vector<std::string> events = {"1", "2"};
-    std::vector<std::string> events = {};
+    //std::vector<std::string> events = {};
+
+    /**
+     * Runner aspect of the code
+     */
+
+    // TODO: Placeholder to represent files. Replace with file objs
+    Data images;
+
+    Runner app;
+
+    app.image_set(images);
+
+    /**
+     * This can fail. There should be some error handling here.
+     * Obviously, this should depend on the multithreading aspect of the app.
+     */
+    app.run();
+
+    /*
+     * TODO: This should be a map of events and the associated images.
+     * Or something along those lines
+    */
+    util::output::Result results = app.result();
+
+    auto [filename, events] = results;
+
+    /** END OF RUNNER*/
 
     util::display::debug(filename, events);
 

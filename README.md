@@ -2,6 +2,8 @@
 
 This repo holds the Computer Vision Assignment for the course CSTE: CMV at Cranfield University.
 
+This project was built using `OpenCV 4.2.0` on MacOS.
+
 ## Features
 
 - [ ] Produce results
@@ -26,6 +28,8 @@ Run the CMake project through CLion
 ## Visual Studio
 
 **TODO:** Insert something about how to run CMake projects in visual studio.
+
+> Note: This project was only briefly tested with Visual Studio.
 
 # Research
 

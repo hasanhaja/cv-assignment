@@ -38,11 +38,16 @@ private:
      * void generate_sample_data();
      */
     std::array<cv::Mat, 255> histogram;
-//    cv::MatND histogram[255];
 
     Input input_images;
     std::vector<Input> dataset;
     std::unique_ptr<Detector> detector;
+
+    /**
+     * This is a little debugging backdoor.
+     * This won't be necessary for regular use API.
+     */
+    std::array<cv::Mat, 255> input;
 
     Result _result;
 

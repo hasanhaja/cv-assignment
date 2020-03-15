@@ -23,10 +23,13 @@ void Runner::run() {
     generate_histogram();
 
     // Need to ensure these things have been correctly initialized
-//    detector = std::make_unique<Detector>(dataset, input_images);
-    detector = std::make_unique<Detector>(input_images, histogram);
+    detector = std::make_unique<Detector>(input_images, dataset.size(), histogram);
 
-    //detector->set_histogram(histogram);
+    /**
+     * This is a little debugging backdoor.
+     * This won't be necessary for regular use API.
+     */
+    detector->set_debug_histogram_input(input);
 
     detector->run();
 
@@ -40,21 +43,20 @@ cv::Mat Runner::get_closest_image() {
 }
 
 void Runner::generate_histogram() {
-    // TODO: placeholder. Refactor samples = background when refactor background name.
-    //std::vector<Input> samples = dataset;
 
-    /** Detection logic starts */
-    #define MAX_NUMBER_OF_SAMPLE_IMAGES 255
     int hist_size[] = {256, 256, 256};
     float range_0[] = {0, 255};
     const float* ranges[] = {range_0, range_0, range_0};
     int channels[] = {0, 1, 2};
 
-    cv::MatND current_histogram;
+    cv::Mat current_histogram;
     current_histogram.create(3, hist_size, CV_32F);
 
-    cv::Mat input[MAX_NUMBER_OF_SAMPLE_IMAGES];
-    //cv::MatND histogram[MAX_NUMBER_OF_SAMPLE_IMAGES];
+    /**
+     * This is a little debugging backdoor.
+     * This won't be necessary for regular use API.
+     */
+    //std::array<cv::Mat, 255> input;
 
     // At the end of the for loop, the histograms of the samples should be collected and processed.
     for (int i = 0; i < dataset.size(); i++) {
@@ -67,8 +69,6 @@ void Runner::generate_histogram() {
 
         histogram[i] = current_histogram.clone();
     }
-
-    //this->histogram = histogram;
 }
 
 Result Runner::result() {

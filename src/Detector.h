@@ -23,34 +23,32 @@ private:
      * These are placeholders for initial testing.
      * File names are omitted.
      */
-    //cv::Mat background, test_image;
-    // Refactor background to sample
-    std::vector<Input> background;
     Input test_image;
     Events events;
     Result result;
 
+    size_t dataset_length;
     std::array<cv::Mat, 255> histogram;
 
-    cv::Mat debug_image;
-    //cv::MatND histogram[255];
+    std::array<cv::Mat, 255> debug_histogram_input;
 
-    void image_into_mat();
+    cv::Mat debug_image;
     void detect();
 
 public:
     Detector();
-    /**
-     * This constructor is placeholder for initial testing of the histogram based recognition.
-     * @param background
-     * @param test_image
-     */
-    //Detector(std::vector<Input> background, Input test_image);
-    Detector(Input test_image, std::array<cv::Mat, 255> histogram);
+    Detector(Input test_image, size_t dataset_length, std::array<cv::Mat, 255> histogram);
     //void set_histogram(cv::MatND histogram[]);
     cv::Mat debug_closest_image();
+
+    /**
+     * This is a little debugging backdoor. This won't be necessary for regular use API.
+     * @param debug_histogram_input
+     */
+    void set_debug_histogram_input(std::array<cv::Mat, 255> debug_histogram_input);
     void run();
     Result get_result();
+
     ~Detector();
 };
 

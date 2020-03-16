@@ -12,7 +12,7 @@ Runner::Runner(Input input_images): input_images(std::move(input_images)) { }
 
 util::Dataset Runner::construct_dataset() {
     util::Dataset data;
-    //Data images = util::file::get_image_filenames("../res/empty");
+    
     for (auto dir_name: directory_names) {
         std::string image_dir = root_dir+dir_name;
         util::Data image_paths = util::file::get_image_filenames(image_dir);
@@ -30,7 +30,7 @@ std::vector<Input> Runner::construct_mats(util::Data paths) {
     std::vector<Input> dataset;
 
     for (auto image : paths) {
-        std::cout << "Image name: " << image << std::endl;
+        //std::cout << "Image name: " << image << std::endl;
 
         cv::Mat img_mat = cv::imread(image);
 
@@ -61,8 +61,9 @@ void Runner::run() {
 //    this->dataset = construct_mats(this->paths);
 //    construct_histogram(dataset, cv::Mat());
 
+    data = std::make_shared<util::Dataset>(construct_dataset());
     // Need to ensure these things have been correctly initialized
-    detector = std::make_unique<Detector>(input_images, construct_dataset());
+    detector = std::make_unique<Detector>(input_images, data);
 
     /**
      * This is a little debugging backdoor.
@@ -89,6 +90,7 @@ cv::Mat Runner::get_closest_image() {
 std::vector<cv::Mat> Runner::construct_histogram(const std::vector<Input>& dataset, const cv::Mat& mask) {
     std::vector<cv::Mat> histogram;
 
+
     int hist_size[] = {256, 256, 256};
     float range_0[] = {0, 255};
     const float* ranges[] = {range_0, range_0, range_0};
@@ -103,7 +105,8 @@ std::vector<cv::Mat> Runner::construct_histogram(const std::vector<Input>& datas
 
         cv::normalize(current_histogram, current_histogram, 1, 0, cv::NORM_L1);
 
-        histogram[i] = current_histogram.clone();
+        //histogram[i] = current_histogram.clone();
+        histogram.push_back(current_histogram.clone());
     }
 
     return histogram;

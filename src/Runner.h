@@ -33,7 +33,7 @@ private:
     /**
      * This map will contain all of the histograms per folder of images
      */
-    util::Dataset data;
+    std::shared_ptr<util::Dataset> data;
     // potentially use the transform function to manipulate the data
 
     Input input_images;

@@ -6,7 +6,7 @@
 
 Detector::Detector() { }
 
-Detector::Detector(Input test_image, util::Dataset dataset): test_image(test_image), dataset(dataset) { }
+Detector::Detector(Input test_image, std::shared_ptr<util::Dataset> dataset): test_image(test_image), dataset(dataset) { }
 
 /**
  * This function is a placeholder and will change after initial testing.
@@ -50,7 +50,7 @@ void Detector::detect(cv::Mat mask) {
      */
     std::map<std::string, double> difference_set;
 
-    for (auto data : dataset) {
+    for (auto data : *dataset) {
         // data would be [label: histogram_array]
         auto [label, histogram] = data;
         for (int i = 0; i < histogram.size(); i++) {

@@ -30,7 +30,7 @@ private:
      * File names are omitted.
      */
     Input test_image;
-    util::Dataset dataset;
+    std::shared_ptr<util::Dataset> dataset;
 
     Result result;
 
@@ -43,7 +43,7 @@ private:
 
 public:
     Detector();
-    Detector(Input test_image, util::Dataset dataset);
+    Detector(Input test_image, std::shared_ptr<util::Dataset> dataset);
     //void set_histogram(cv::MatND histogram[]);
     cv::Mat debug_closest_image();
 

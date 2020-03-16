@@ -40,6 +40,7 @@ private:
     void detect(cv::Mat mask);
 
     Event calculate_event(std::map<std::string, double> difference_set);
+    std::pair<std::string, double> calculate_min(std::map<std::string, double> difference_set);
 
 public:
     Detector();

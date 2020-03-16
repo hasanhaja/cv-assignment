@@ -72,9 +72,9 @@ void Detector::detect(cv::Mat mask) {
 
             double diff = (1 - correlation) + (1 - intersect) + chisq + bhat;
 
-            std::cout << std::endl;
+            //std::cout << std::endl;
 
-            std::cout << "Comparison image " << i << "\nCorr: " << correlation << "\nChisq: " << chisq << "\nIntersect: " << intersect << "\nBhatt: " << bhat << "\nTotal distance = " << diff << std::endl;
+            //std::cout << "Comparison image " << i << "\nCorr: " << correlation << "\nChisq: " << chisq << "\nIntersect: " << intersect << "\nBhatt: " << bhat << "\nTotal distance = " << diff << std::endl;
 
             if (diff < closest_distance) {
                 closest_distance = diff;
@@ -94,9 +94,37 @@ void Detector::detect(cv::Mat mask) {
  * @return
  */
 Event Detector::calculate_event(std::map<std::string, double> difference_set) {
-    return Event::Empty;
+
+    auto min_diff = calculate_min(difference_set);
+    std::string min_diff_label = min_diff.first;
+    Event event;
+    //"barrier", "empty", "entering", "leaving", "ontrack", "train"
+    if (min_diff_label == "empty") {
+        event = Event::Empty;
+    } else if (min_diff_label == "barrier") {
+        event = Event::Barrier;
+    } else if (min_diff_label == "entering") {
+        event = Event::Entering;
+    } else if (min_diff_label == "leaving") {
+        event = Event::Leaving;
+    } else if (min_diff_label == "ontrack") {
+        event = Event::OnTrack;
+    } else if (min_diff_label == "train") {
+        event = Event::Train;
+    }
+
+    return event;
 }
 
+std::pair<std::string, double> Detector::calculate_min(std::map<std::string, double> difference_set) {
+
+    auto diff_iter = std::min_element(difference_set.begin(),
+                                      difference_set.end(),
+                                      [](const auto& a, const auto& b) {
+                                          return a.second < b.second; });
+    auto min = std::make_pair(diff_iter->first, diff_iter->second);
+    return min;
+}
 
 Result Detector::get_result() {
     return result;

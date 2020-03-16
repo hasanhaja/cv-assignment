@@ -12,7 +12,7 @@ Runner::Runner(Input input_images): input_images(std::move(input_images)) { }
 
 util::Dataset Runner::construct_dataset() {
     util::Dataset data;
-    
+
     for (auto dir_name: directory_names) {
         std::string image_dir = root_dir+dir_name;
         util::Data image_paths = util::file::get_image_filenames(image_dir);

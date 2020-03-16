@@ -17,6 +17,12 @@
 using namespace util::output;
 using namespace util::input;
 
+/**
+ * Perhaps this class should only return one event per mask
+ * And then Runner pools the results and performs the logic there.
+ * Detector will loop through the entire dataset for every mask.
+ * So three times the calculations since there will be three masks for three zones
+ */
 class Detector {
 private:
     /**

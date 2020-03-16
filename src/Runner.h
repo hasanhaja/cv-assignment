@@ -7,12 +7,15 @@
 
 #include <iostream>
 #include <opencv2/core/mat.hpp>
+#include <opencv2/imgcodecs.hpp>
 #include <map>
 #include <array>
+#include <vector>
 
 #include "utilities/aliases.h"
 #include "utilities/input.h"
 #include "utilities/output.h"
+#include "utilities/file.h"
 #include "Detector.h"
 
 using namespace util::input;
@@ -27,12 +30,16 @@ private:
     /**
      * This might be deprecated in favour of Input
      */
-    Data images;
+    util::Data paths;
+    std::string root_dir;
+    std::vector<std::string> directory_names;
 
     /**
      * This map will contain all of the histograms per folder of images
      */
-    std::map<std::string, cv::MatND> data;
+    util::Dataset data, data_with_hist;
+    // potentially use the transform function to manipulate the data
+
     /**
      * HistogramsFor case1, case2, ..., caseN;
      * void generate_sample_data();
@@ -50,10 +57,22 @@ private:
     std::array<cv::Mat, 255> input;
 
     Result _result;
+    // Given images (paths), this should work
+    std::vector<Input> construct_mats(util::Data paths);
+    util::Dataset construct_dataset();
 
 public:
     Runner();
     explicit Runner(Input input_images);
+
+    /**
+     * This is a placeholder. This should become set_dataset
+     * @param paths
+     */
+    void set_data_path(util::Data paths);
+    void set_sample_dir(std::string root_dir, std::vector<std::string> directory_names);
+    void sample_dir_names(std::vector<std::string> directory_names);
+    void dataset_path(const std::vector<std::string>& folder_names);
     void set_dataset(std::vector<Input> dataset);
     void generate_histogram();
     void run();

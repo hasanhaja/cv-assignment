@@ -9,6 +9,7 @@
 #include "utilities/display.h"
 #include "utilities/output.h"
 #include "utilities/input.h"
+#include "utilities/file.h"
 #include "Runner.h"
 
 #include <opencv2/opencv.hpp>
@@ -67,46 +68,18 @@ int main(int argc, char *argv[]) {
     }
 
     /**
-     * Placeholder for detection
-     */
-    //std::string filename = "test.png";
-    //std::vector<std::string> events = {"1", "2"};
-    //std::vector<std::string> events = {};
-
-    /**
      * Runner aspect of the code
      */
 
     /**
      * Read sample images
      */
-    // TODO: Placeholder to represent files. Replace with file objs
-    Data images;
-    std::vector<util::input::Input> dataset;
-
-    // TODO extract to function in own module
-    for (auto& sample_path : std::filesystem::directory_iterator("../res/initial_test")) {
-        auto path = sample_path.path().string();
-
-        if (path.find(".png") != std::string::npos && path.find("test_") == std::string::npos) {
-            images.push_back(sample_path.path().string());
-        }
-    }
-
-    // Construct dataset
-    for (auto image : images) {
-        std::cout << "Image name: " << image << std::endl;
-
-        cv::Mat img_mat = cv::imread(image);
-
-        if (img_mat.empty()) {
-            throw std::invalid_argument("Could not open image.");
-        }
-
-        util::input::Input img {image, img_mat};
-
-        dataset.push_back(img);
-    }
+    /**
+     * This could be done programmatically too, but it'll do for now.
+     */
+    std::vector<std::string> directory_names = {"empty", "barrier", "entering", "leaving", "ontrack", "train"};
+    std::string root_dir = "../res/";
+    util::Data images = util::file::get_image_filenames("../res/empty");
 
     /**
      * Data should folder names to all the sample files.
@@ -115,7 +88,10 @@ int main(int argc, char *argv[]) {
 
     Runner app(test_images[0]);
 
-    app.set_dataset(dataset);
+    app.set_sample_dir(root_dir, directory_names);
+
+    app.set_data_path(images);
+    //app.set_dataset(dataset);
 
     std::cout << "Image_set initialized." << std::endl;
     /**

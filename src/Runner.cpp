@@ -10,6 +10,64 @@ Runner::Runner() {
 
 Runner::Runner(Input input_images): input_images(std::move(input_images)) { }
 
+util::Dataset Runner::construct_dataset() {
+    util::Dataset data;
+    //Data images = util::file::get_image_filenames("../res/empty");
+    for (auto dir_name: directory_names) {
+        std::map<std::string, cv::Mat> image_map;
+        std::string image_dir = root_dir+dir_name;
+        util::Data image_paths = util::file::get_image_filenames(image_dir);
+        // Populate image_map, and then append to data
+        auto input_images = construct_mats(image_paths);
+
+        for (auto [filename, img] : input_images) {
+            image_map[filename] = img;
+        }
+
+        data[dir_name] = image_map;
+    }
+
+    return data;
+}
+
+std::vector<Input> Runner::construct_mats(util::Data paths) {
+
+    std::vector<Input> dataset;
+
+    for (auto image : paths) {
+        std::cout << "Image name: " << image << std::endl;
+
+        cv::Mat img_mat = cv::imread(image);
+
+        if (img_mat.empty()) {
+            throw std::invalid_argument("Could not open image.");
+        }
+
+        Input img {image, img_mat};
+
+        dataset.push_back(img);
+    }
+
+    return dataset;
+}
+
+void Runner::set_data_path(util::Data paths) {
+    this->paths = paths;
+}
+
+void Runner::set_sample_dir(std::string root_dir, std::vector<std::string> directory_names) {
+    this->root_dir = root_dir;
+    this->directory_names = directory_names;
+}
+
+void Runner::dataset_path(const std::vector<std::string>& folder_names) {
+
+}
+
+/**
+ * This would become obsolete
+ * @param dataset
+ */
 void Runner::set_dataset(std::vector<Input> dataset) {
     this->dataset = std::move(dataset);
 }
@@ -20,6 +78,7 @@ void Runner::set_dataset(std::vector<Input> dataset) {
 void Runner::run() {
 
     std::cout << "App run block entered" << std::endl;
+    this->dataset = construct_mats(this->paths);
     generate_histogram();
 
     // Need to ensure these things have been correctly initialized
@@ -71,6 +130,10 @@ void Runner::generate_histogram() {
     }
 }
 
+/**
+ * This should be the function that processes the results
+ * @return
+ */
 Result Runner::result() {
     return _result;
 }

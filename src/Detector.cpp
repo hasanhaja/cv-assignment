@@ -64,7 +64,9 @@ void Detector::detect() {
 
         double diff = (1 - correlation) + (1 - intersect) + chisq + bhat;
 
-        std::cout << "Comparison image " << i << " Corr: " << correlation << " Chisq: " << chisq << " Intersect: " << intersect << " Bhatt: " << bhat << " Total distance = " << diff << std::endl;
+        std::cout << std::endl;
+
+        std::cout << "Comparison image " << i << "\nCorr: " << correlation << "\nChisq: " << chisq << "\nIntersect: " << intersect << "\nBhatt: " << bhat << "\nTotal distance = " << diff << std::endl;
 
         if (diff < closest_distance) {
             closest_distance = diff;
@@ -73,7 +75,7 @@ void Detector::detect() {
 
     }
 
-    std::cout << "Closest image calculated." << std::endl;
+    std::cout << "Closest image calculated. It is number " << closest_image << "." << std::endl;
 
     // TODO: For this to work, you'll need the same input array used to calculate hist
     // If I can tell which image it, then I solve the problem of finding where it belongs.
@@ -83,7 +85,7 @@ void Detector::detect() {
     /** Detection logic ends */
 
     // Placeholder
-    std::vector<std::string> events = {"1", "2", "3"};
+    events = {Event::Barrier, Event::Train, Event::OnTrack};
     this->result = std::move(Result{"detector_test.png", events});
 }
 

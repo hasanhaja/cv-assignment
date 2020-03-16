@@ -8,7 +8,7 @@
 #include <vector>
 #include <string>
 
-using Events = std::vector<std::string>;
+//using Events = std::vector<std::string>;
 using Data = std::vector<std::string>;
 
 #endif //CV_ASSIGNMENT_ALIASES_H

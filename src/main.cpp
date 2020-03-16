@@ -7,7 +7,7 @@
 #include <vector>
 #include <filesystem>
 #include "utilities/display.h"
-#include "utilities/result.h"
+#include "utilities/output.h"
 #include "utilities/input.h"
 #include "Runner.h"
 

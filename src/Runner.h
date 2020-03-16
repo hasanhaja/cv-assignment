@@ -12,7 +12,7 @@
 
 #include "utilities/aliases.h"
 #include "utilities/input.h"
-#include "utilities/result.h"
+#include "utilities/output.h"
 #include "Detector.h"
 
 using namespace util::input;

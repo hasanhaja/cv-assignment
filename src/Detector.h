@@ -11,7 +11,7 @@
 #include <vector>
 #include <array>
 #include "utilities/aliases.h"
-#include "utilities/result.h"
+#include "utilities/output.h"
 #include "utilities/input.h"
 
 using namespace util::output;
@@ -24,6 +24,7 @@ private:
      * File names are omitted.
      */
     Input test_image;
+    //Events events;
     Events events;
     Result result;
 

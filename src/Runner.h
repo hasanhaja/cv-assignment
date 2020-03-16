@@ -29,7 +29,7 @@ class Runner {
 private:
     std::string root_dir;
     std::vector<std::string> directory_names;
-
+    std::vector<Input> masks;
     /**
      * This map will contain all of the histograms per folder of images
      */
@@ -56,7 +56,7 @@ private:
 public:
     Runner();
     explicit Runner(Input input_images);
-
+    void set_masks(std::string masks_dir);
     void set_sample_dir(std::string root_dir, std::vector<std::string> directory_names);
     void run();
     Results results();

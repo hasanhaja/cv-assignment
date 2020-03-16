@@ -19,10 +19,45 @@ util::Dataset Runner::construct_dataset() {
 
         auto input_images = construct_mats(image_paths);
 
-        data[dir_name] = construct_histogram(input_images, cv::Mat());
+        /**
+         * If there aren't there masks, then this will throw exception.
+         */
+        //"barrier", "empty", "entering", "leaving", "ontrack", "train"
+        if (dir_name == "train" || dir_name == "ontrack") {
+            data[dir_name] = construct_histogram(input_images, masks.at(2).image);
+        } else if (dir_name == "barrier" || dir_name == "entering") {
+            data[dir_name] = construct_histogram(input_images, masks.at(0).image);
+        } else if (dir_name == "leaving") {
+            data[dir_name] = construct_histogram(input_images, masks.at(1).image);
+        }else if (dir_name == "empty") {
+            data[dir_name] = construct_histogram(input_images, cv::Mat());
+        }
     }
 
     return data;
+}
+
+void Runner::set_masks(std::string masks_dir) {
+    std::string image_dir = root_dir+masks_dir;
+    util::Data image_paths = util::file::get_image_filenames(image_dir);
+
+    auto raw_masks = construct_mats(image_paths);
+
+    //std::cout << "Raw mask computed" << std::endl;
+
+    std::vector<Input> converted;
+    for (auto [filename, mat]: raw_masks) {
+        mat.convertTo(mat, CV_8U, 1/256.0);
+        /**
+         * Masks are not working. Cannot convert from 16 bit to 8 bit
+         */
+        //std::cout << "Converted type: " << mat.type() << std::endl;
+        //converted.push_back(Input{filename, mat});
+        // Placeholder to short circuit Masks
+        converted.push_back(Input{filename, cv::Mat()});
+    }
+
+    this->masks = converted;
 }
 
 std::vector<Input> Runner::construct_mats(util::Data paths) {
@@ -30,13 +65,13 @@ std::vector<Input> Runner::construct_mats(util::Data paths) {
     std::vector<Input> dataset;
 
     for (auto image : paths) {
-        //std::cout << "Image name: " << image << std::endl;
 
         cv::Mat img_mat = cv::imread(image);
 
         if (img_mat.empty()) {
             throw std::invalid_argument("Could not open image.");
         }
+        //std::cout << "Image name: " << image << " Size: " << img_mat.size() << img_mat.type() << std::endl;
 
         Input img {image, img_mat};
 
@@ -74,13 +109,18 @@ void Runner::run() {
     /**
      * Iterate through different masks and get Results
      */
-    detector->run(cv::Mat());
+    Events events;
+    std::string filename;
+    for (auto [name, mask]: masks) {
+        detector->run(mask);
+        auto result = std::move(detector->get_result());
+        events.push_back(result.event);
+        if (filename.empty()) {
+            filename = result.filename;
+        }
+    }
 
-    // TODO: Does this have to be a move?
-    // As long as detector gets destroyed after this, it should be fine.
-    auto result = std::move(detector->get_result());
-    Events events = {result.event};
-    this->_results = Results {result.filename, events};
+    this->_results = Results {filename, events};
 }
 
 cv::Mat Runner::get_closest_image() {

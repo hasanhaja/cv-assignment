@@ -79,16 +79,17 @@ int main(int argc, char *argv[]) {
      */
     std::vector<std::string> directory_names = {"barrier", "empty", "entering", "leaving", "ontrack", "train"};
     std::string root_dir = "../res/";
+    std::string masks_dir = "masks";
     //util::Data images = util::file::get_image_filenames("../res/empty");
 
     /**
      * Data should folder names to all the sample files.
      * The Runner should hold all this information.
      */
-
     Runner app(test_images[0]);
 
     app.set_sample_dir(root_dir, directory_names);
+    app.set_masks(masks_dir);
 
     //app.set_data_path(images);
     //app.set_dataset(dataset);

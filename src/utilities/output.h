@@ -14,6 +14,10 @@ namespace util::output {
     using Events = std::vector<Event>;
     struct Result {
         std::string filename;
+        Event event;
+    };
+    struct Results {
+        std::string filename;
         Events events;
     };
 

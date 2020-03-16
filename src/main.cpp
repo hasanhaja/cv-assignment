@@ -77,9 +77,9 @@ int main(int argc, char *argv[]) {
     /**
      * This could be done programmatically too, but it'll do for now.
      */
-    std::vector<std::string> directory_names = {"empty", "barrier", "entering", "leaving", "ontrack", "train"};
+    std::vector<std::string> directory_names = {"barrier", "empty", "entering", "leaving", "ontrack", "train"};
     std::string root_dir = "../res/";
-    util::Data images = util::file::get_image_filenames("../res/empty");
+    //util::Data images = util::file::get_image_filenames("../res/empty");
 
     /**
      * Data should folder names to all the sample files.
@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
 
     app.set_sample_dir(root_dir, directory_names);
 
-    app.set_data_path(images);
+    //app.set_data_path(images);
     //app.set_dataset(dataset);
 
     std::cout << "Image_set initialized." << std::endl;
@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
      * TODO: This should be a map of events and the associated images.
      * Or something along those lines
     */
-    util::output::Result results = app.result();
+    util::output::Results results = app.results();
     std::cout << "App running complete." << std::endl;
 
     auto [filename, events] = results;
@@ -115,12 +115,12 @@ int main(int argc, char *argv[]) {
 
     /* End of placeholder */
 
-    // TODO Debug: display the closest image
+    // The image can no longer be displayed
 
-    cv::namedWindow("Recognition result", 1);
-    cv::imshow("Recognition result", app.get_closest_image());
-    cv::waitKey(0);
-    cv::destroyWindow("Recognition result");
+//    cv::namedWindow("Recognition result", 1);
+//    cv::imshow("Recognition result", app.get_closest_image());
+//    cv::waitKey(0);
+//    cv::destroyWindow("Recognition result");
 
     std::cout << "Program exited." << std::endl;
 

@@ -30,21 +30,20 @@ private:
      * File names are omitted.
      */
     Input test_image;
-    //Events events;
-    Events events;
+    util::Dataset dataset;
+
     Result result;
 
-    size_t dataset_length;
-    std::array<cv::Mat, 255> histogram;
-
-    std::array<cv::Mat, 255> debug_histogram_input;
-
+    std::vector<cv::Mat> debug_histogram_input;
     cv::Mat debug_image;
-    void detect();
+
+    void detect(cv::Mat mask);
+
+    Event calculate_event(std::map<std::string, double> difference_set);
 
 public:
     Detector();
-    Detector(Input test_image, size_t dataset_length, std::array<cv::Mat, 255> histogram);
+    Detector(Input test_image, util::Dataset dataset);
     //void set_histogram(cv::MatND histogram[]);
     cv::Mat debug_closest_image();
 
@@ -52,8 +51,8 @@ public:
      * This is a little debugging backdoor. This won't be necessary for regular use API.
      * @param debug_histogram_input
      */
-    void set_debug_histogram_input(std::array<cv::Mat, 255> debug_histogram_input);
-    void run();
+    void set_debug_histogram_input(std::vector<cv::Mat> debug_histogram_input);
+    void run(cv::Mat mask);
     Result get_result();
 
     ~Detector();

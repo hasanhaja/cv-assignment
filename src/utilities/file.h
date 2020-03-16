@@ -10,7 +10,7 @@
 
 namespace util::file {
 
-    Data get_image_filenames(const std::string& dir);
+    util::Data get_image_filenames(const std::string& dir);
 
 }
 

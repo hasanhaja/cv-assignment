@@ -27,56 +27,39 @@ using namespace util::output;
  */
 class Runner {
 private:
-    /**
-     * This might be deprecated in favour of Input
-     */
-    util::Data paths;
     std::string root_dir;
     std::vector<std::string> directory_names;
 
     /**
      * This map will contain all of the histograms per folder of images
      */
-    util::Dataset data, data_with_hist;
+    util::Dataset data;
     // potentially use the transform function to manipulate the data
 
-    /**
-     * HistogramsFor case1, case2, ..., caseN;
-     * void generate_sample_data();
-     */
-    std::array<cv::Mat, 255> histogram;
-
     Input input_images;
-    std::vector<Input> dataset;
     std::unique_ptr<Detector> detector;
 
     /**
      * This is a little debugging backdoor.
      * This won't be necessary for regular use API.
      */
-    std::array<cv::Mat, 255> input;
+    //std::array<cv::Mat, 255> input;
 
-    Result _result;
+    Results _results;
     // Given images (paths), this should work
     std::vector<Input> construct_mats(util::Data paths);
     util::Dataset construct_dataset();
+    std::vector<cv::Mat> construct_histogram(const std::vector<Input>& dataset, const cv::Mat& mask);
+
+    void verify_results();
 
 public:
     Runner();
     explicit Runner(Input input_images);
 
-    /**
-     * This is a placeholder. This should become set_dataset
-     * @param paths
-     */
-    void set_data_path(util::Data paths);
     void set_sample_dir(std::string root_dir, std::vector<std::string> directory_names);
-    void sample_dir_names(std::vector<std::string> directory_names);
-    void dataset_path(const std::vector<std::string>& folder_names);
-    void set_dataset(std::vector<Input> dataset);
-    void generate_histogram();
     void run();
-    Result result();
+    Results results();
     cv::Mat get_closest_image();
     ~Runner();
 };

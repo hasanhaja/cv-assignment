@@ -15,19 +15,13 @@ namespace util {
     /**
      * Structure
      * {
-     *  train: { filename1: hist1,
-     *            filename2: hist2,
-     *            ...
-     *          }
+     *  train: hist_array
      *  ,
-     *  empty: { filename1: hist1,
-     *            filename2: hist2,
-     *            ...
-     *          }
+     *  empty: hist_array
      *
      * }
      */
-    using Dataset = std::map<std::string, std::map<std::string, cv::Mat>>;
+    using Dataset = std::map<std::string, std::vector<cv::Mat>>;
 }
 
 #endif //CV_ASSIGNMENT_ALIASES_H

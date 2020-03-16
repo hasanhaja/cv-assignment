@@ -4,8 +4,8 @@
 #include "file.h"
 
 namespace util::file {
-    Data get_image_filenames(const std::string& dir) {
-        Data images;
+    util::Data get_image_filenames(const std::string& dir) {
+        util::Data images;
         for (auto& sample_path : std::filesystem::directory_iterator(dir)) {
             auto path = sample_path.path().string();
 
